@@ -124,7 +124,9 @@ export default function App() {
           setHasServerGroqKey(data.hasGroqKey);
         }
       })
-      .catch(err => console.error('Failed to load server Groq config', err));
+      .catch(err => {
+        console.warn('Notice: Server key configuration is loading or offline, defaulting to fallback modes.', err);
+      });
   }, []);
 
   // Listen to Firebase authentication state changes

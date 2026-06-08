@@ -13,9 +13,19 @@ const PORT = 3000;
 
 // Helper to read environment variables in a case-insensitive manner for maximum Vercel/local compatibility
 function getEnvVar(name: string): string | undefined {
-  const keys = Object.keys(process.env);
-  const matchedKey = keys.find(k => k.toLowerCase() === name.toLowerCase());
-  return matchedKey ? process.env[matchedKey] : undefined;
+  if (process.env[name]) return process.env[name];
+  const upper = name.toUpperCase();
+  if (process.env[upper]) return process.env[upper];
+  const lower = name.toLowerCase();
+  if (process.env[lower]) return process.env[lower];
+
+  try {
+    const keys = Object.keys(process.env);
+    const matchedKey = keys.find(k => k.toLowerCase() === name.toLowerCase());
+    return matchedKey ? process.env[matchedKey] : undefined;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 // Initialize Gemini helper function
@@ -79,6 +89,14 @@ function getGroqKeys(customKey?: string, authHeader?: string): string[] {
 
   return keys;
 }
+
+// Vercel Request Path normalization helper middleware
+app.use((req, res, next) => {
+  if (process.env.VERCEL && !req.url.startsWith('/api')) {
+    req.url = '/api' + (req.url.startsWith('/') ? '' : '/') + req.url;
+  }
+  next();
+});
 
 app.use(express.json({ limit: '10mb' }));
 
