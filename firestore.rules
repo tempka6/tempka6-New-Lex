@@ -1,0 +1,81 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net
+    match /{document=**} { 
+      allow read, write: if false; 
+    }
+
+    // Core validation helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Entities Validations
+    function isValidCustomCase(data) {
+      return data.keys().hasAll(['id', 'title', 'citation', 'category', 'fullText', 'userId', 'createdAt'])
+        && data.keys().size() == 7
+        && data.id is string && data.id.size() <= 128
+        && data.title is string && data.title.size() <= 256
+        && data.citation is string && data.citation.size() <= 128
+        && data.category is string && (
+             data.category == 'Inheritance' || 
+             data.category == 'Family' || 
+             data.category == 'Criminal' || 
+             data.category == 'Civil' || 
+             data.category == 'Constitutional' || 
+             data.category == 'Taxation'
+           )
+        && data.fullText is string && data.fullText.size() <= 100000
+        && data.userId == request.auth.uid
+        && data.createdAt == request.time;
+    }
+
+    function isValidFeedback(data) {
+      return data.keys().hasAll(['name', 'stars', 'type', 'text', 'date', 'userId', 'createdAt'])
+        && data.keys().size() == 7
+        && data.name is string && data.name.size() <= 100
+        && data.stars is int && data.stars >= 1 && data.stars <= 5
+        && data.type is string && data.type.size() <= 50
+        && data.text is string && data.text.size() <= 2000
+        && data.date is string && data.date.size() <= 50
+        && data.userId == request.auth.uid
+        && data.createdAt == request.time;
+    }
+
+    // Matches for customCases
+    match /customCases/{caseId} {
+      allow get: if isSignedIn() && isValidId(caseId);
+      allow list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(caseId) && isValidCustomCase(incoming());
+      allow update: if isSignedIn() && isValidId(caseId) && isOwner(existing().userId) && isValidCustomCase(incoming()) && incoming().userId == existing().userId && incoming().createdAt == existing().createdAt;
+      allow delete: if isSignedIn() && isValidId(caseId) && isOwner(existing().userId);
+    }
+
+    // Matches for feedback
+    match /feedback/{feedbackId} {
+      allow get: if isValidId(feedbackId);
+      allow list: if true; // Any visitor can read the general community feedback listings
+      allow create: if isSignedIn() && isValidId(feedbackId) && isValidFeedback(incoming());
+      allow update: if isSignedIn() && isValidId(feedbackId) && isOwner(existing().userId) && isValidFeedback(incoming()) && incoming().userId == existing().userId && incoming().createdAt == existing().createdAt;
+      allow delete: if isSignedIn() && isValidId(feedbackId) && isOwner(existing().userId);
+    }
+  }
+}

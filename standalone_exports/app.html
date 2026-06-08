@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LexPK Workspace — Pakistan Legal Intelligence</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;405;500;600;700&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            sansDisplay: ['Space Grotesk', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom UI Scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(245, 245, 240, 0.4);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E2E8F0;
+      border-radius: 99px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #CBD5E1;
+    }
+
+    @keyframes scaleUp {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .animate-scale-up {
+      animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .animate-fade-in {
+      animation: scaleUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="bg-[#FAF9F5] h-full text-stone-700 antialiased font-sans select-none overflow-hidden flex flex-col md:flex-row">
+
+  <!-- Mobile Top Bar Header -->
+  <div class="fixed top-0 left-0 right-0 z-40 bg-white border-b border-[#E7E5DD] px-4 py-3 flex justify-between items-center md:hidden">
+    <button onclick="toggleMobileSidebar()" class="p-1.5 rounded-lg text-stone-600 hover:bg-stone-100 transition-colors">
+      <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 bg-emerald-800 rounded-lg flex items-center justify-center text-white font-bold text-xs font-serif">L</div>
+      <span class="font-serif font-bold text-stone-900 text-sm">LexPK Workspace</span>
+    </div>
+    <div class="w-7"></div>
+  </div>
+
+  <!-- Sidebar Overlay navigation -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-stone-900 text-stone-300 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col justify-between border-r border-stone-850">
+    <div class="flex flex-col overflow-y-auto">
+      <!-- Title & Branding -->
+      <div class="p-5 border-b border-stone-800/60 flex justify-between items-center bg-stone-950/45 shrink-0">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-[#006B44] flex items-center justify-center text-white">
+            <i data-lucide="scale" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h1 class="font-serif text-[#FAF9F5] font-black text-sm tracking-wide">LexPK Workspace</h1>
+            <p class="text-[8px] text-stone-500 font-bold uppercase tracking-wider leading-none mt-0.5">Vakeel Reasoning Engine</p>
+          </div>
+        </a>
+        <button onclick="toggleMobileSidebar()" class="p-1 rounded bg-stone-800/80 hover:bg-stone-800 md:hidden text-stone-400">
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- User profile display card -->
+      <div class="m-4 p-3 bg-stone-950/30 border border-stone-800/40 rounded-xl space-y-1.5 dynamic-profile-view">
+        <div class="flex gap-2 items-center">
+          <div class="w-7 h-7 rounded-full bg-emerald-820/20 border border-emerald-500/20 flex items-center justify-center text-emerald-450 shrink-0">
+            <i data-lucide="user" class="w-4 h-4" id="role-avatar-icon"></i>
+          </div>
+          <div>
+            <span class="text-[9px] font-bold text-stone-400 uppercase tracking-widest leading-none">ACTIVE PROFILE</span>
+            <h5 class="text-[#FAF9F5] text-[11.5px] font-serif font-black leading-tight" id="role-title-lbl">Aam Shehri (Citizen)</h5>
+          </div>
+        </div>
+        <p class="text-[8.5px] text-stone-400 leading-normal font-light" id="role-desc-lbl">Simple Urdu & English explanations without complex legalese burdens.</p>
+        <button onclick="openOnboarding()" class="w-full mt-2 py-1.5 bg-stone-800 hover:bg-stone-750 text-stone-200 rounded-lg text-[9px] font-bold tracking-wider uppercase border border-stone-700/50 flex items-center justify-center gap-1">
+          <i data-lucide="refresh-cw" class="w-3 h-3"></i> Change Profile
+        </button>
+      </div>
+
+      <!-- Navigation Tabs menus -->
+      <div class="px-3 py-2 space-y-1.5 select-none">
+        <span class="text-[8px] text-stone-500 font-extrabold uppercase tracking-widest px-3 block">INTELLIGENCE SUITE</span>
+        <ul class="space-y-1">
+          <li>
+            <button onclick="switchTab('chat')" id="tab-btn-chat" class="w-full px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-2.5 transition-colors cursor-pointer bg-emerald-800/20 text-[#FAF9F5] border border-emerald-850/50">
+              <i data-lucide="message-square" class="w-4 h-4"></i> Vakeel Intelligence Chat
+            </button>
+          </li>
+          <li>
+            <button onclick="switchTab('library')" id="tab-btn-library" class="w-full px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-2.5 transition-colors cursor-pointer text-stone-400 hover:bg-stone-850/50">
+              <i data-lucide="book-open" class="w-4 h-4"></i> Pakistan Law Library
+            </button>
+          </li>
+          <li>
+            <button onclick="switchTab('drafts')" id="tab-btn-drafts" class="w-full px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-2.5 transition-colors cursor-pointer text-stone-400 hover:bg-stone-850/50">
+              <i data-lucide="file-text" class="w-4 h-4"></i> Quick Court Drafts Studio
+            </button>
+          </li>
+        </ul>
+
+        <span class="text-[8px] text-stone-500 font-extrabold uppercase tracking-widest px-3 pt-3 block">E-COURT UTILITIES</span>
+        <ul class="space-y-1">
+          <li>
+            <button onclick="switchTab('court-fee')" id="tab-btn-court-fee" class="w-full px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-2.5 transition-colors cursor-pointer text-stone-400 hover:bg-stone-850/50">
+              <i data-lucide="calculator" class="w-4 h-4"></i> Provincial Court Fee Calc
+            </button>
+          </li>
+          <li>
+            <button onclick="switchTab('limitation')" id="tab-btn-limitation" class="w-full px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-2.5 transition-colors cursor-pointer text-stone-400 hover:bg-stone-850/50">
+              <i data-lucide="clock" class="w-4 h-4"></i> Limitation Period Lookup
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Security Footnote -->
+    <div class="p-4 border-t border-stone-850 bg-stone-950/20 text-center shrink-0">
+      <div class="flex items-center gap-1.5 justify-center text-[10px] text-stone-400 font-medium">
+        <i data-lucide="shield-check" class="w-4 h-4 text-[#C5A85A]"></i> Grounded Sandbox Secure
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile Sidebar Overlay Backdrop -->
+  <div id="backdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 z-40 bg-black/45 backdrop-blur-xs transition-opacity duration-300 opacity-0 pointer-events-none md:hidden"></div>
+
+  <!-- Primary Workspace Content Frame -->
+  <main class="flex-grow flex flex-col pt-[53px] md:pt-0 overflow-hidden relative" id="workspace-main-panel">
+    
+    <!-- HEADER BAR workspace stats -->
+    <header class="bg-white border-b border-[#E7E5DD] px-6 py-4 flex justify-between items-center shrink-0">
+      <div>
+        <h2 class="text-stone-900 font-serif font-black text-sm md:text-base tracking-tight" id="active-panel-title">AI Vakeel Assistant</h2>
+        <p class="text-[9.5px] text-stone-400 font-medium uppercase tracking-widest mt-0.5" id="active-panel-subtitle">LLaMA-3.3 Pakistani Constitutional Engine</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="bg-emerald-50 border border-emerald-100 rounded-lg px-2.5 py-1 flex items-[#006B44] gap-1.5 text-[9.5px] font-bold text-emerald-800">
+          <span class="w-1.5 h-1.5 bg-emerald-600 rounded-full animate-pulse self-center"></span>
+          Simulated Intel Mode
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT MODULE SWITCH PANE - FLEX STRETCH -->
+    <div class="flex-grow overflow-hidden relative">
+
+      <!-- ==================== TAB 1: AI CHAT INTERFACE ==================== -->
+      <section id="pane-chat" class="absolute inset-0 flex flex-col justify-between overflow-hidden bg-[#FAF9F5]/40 animate-fade-in">
+        <!-- Messages Area -->
+        <div class="flex-grow overflow-y-auto p-4 md:p-6 space-y-4" id="chat-messages-container">
+          <!-- Initializing message with standard Pakistani constitution welcomes -->
+        </div>
+
+        <!-- Quick Prep Questions Drawer -->
+        <div class="px-4 py-2 border-t border-stone-150 bg-white/70 shrink-0 overflow-x-auto scrollbar-none flex gap-2" id="chat-pills-bar">
+          <!-- Quick pill values -->
+        </div>
+
+        <!-- Send Box -->
+        <div class="p-4 border-t border-[#E7E5DD] bg-white flex gap-2 shrink-0">
+          <input
+            type="text"
+            id="chat-input-field"
+            onkeydown="if(event.key === 'Enter') sendChatMessage()"
+            placeholder="Type any statutory search or legal query in english or Urdu... (e.g. PPC 379)"
+            class="flex-grow px-4 py-3 bg-stone-50 border-2 border-stone-200 focus:border-emerald-700 rounded-xl text-xs outline-none text-stone-900 placeholder-stone-400"
+          />
+          <button onclick="sendChatMessage()" class="bg-emerald-800 hover:bg-emerald-950 text-white font-bold text-xs px-5 py-3 rounded-xl flex items-center gap-2 transition-colors">
+            Ask Engine <i data-lucide="send" class="w-3.5 h-3.5 text-white"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 2: LAW LIBRARY EXPLORER ==================== -->
+      <section id="pane-library" class="absolute inset-0 flex flex-col hidden bg-[#FAF9F5] overflow-y-auto p-6 space-y-6 animate-fade-in">
+        <div class="max-w-4xl mx-auto space-y-4">
+          <div class="bg-emerald-900 text-white rounded-2xl p-6 relative overflow-hidden flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+            <div class="space-y-1">
+              <h3 class="text-lg font-serif font-bold text-[#C5A85A]">Pakistan Code Explorer</h3>
+              <p class="text-[11px] text-stone-330 font-light max-w-sm">Search and explore verified statutory federal acts and codes promulgated from 1947 to 2026.</p>
+            </div>
+            <div class="bg-white/10 text-xs px-3 py-1.5 border border-white/20 rounded-md font-bold shrink-0">
+              1,130 Acts Handled
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Codes list cards -->
+            <div class="bg-white border border-stone-200/60 p-4 rounded-xl flex justify-between items-start hover:shadow-md transition-shadow">
+              <div class="space-y-1.5">
+                <span class="text-[8.5px] font-extrabold text-[#C5A85A] uppercase font-mono">CRIMINAL LAW</span>
+                <h4 class="text-stone-900 font-bold font-serif text-sm">Pakistan Penal Code (PPC) 1860</h4>
+                <p class="text-[10px] text-stone-400 font-light">Covers all standard offenses, theft, criminal trespass, and criminal conspiracy codes.</p>
+              </div>
+              <button onclick="injectPresetAndSwitch('Explain PPC 349 theft punishment')" class="p-1 px-2.5 text-[8.5px] font-bold text-[#006B44] bg-emerald-50 rounded border border-emerald-100">Browse</button>
+            </div>
+
+            <div class="bg-white border border-stone-200/60 p-4 rounded-xl flex justify-between items-start hover:shadow-md transition-shadow">
+              <div class="space-y-1.5">
+                <span class="text-[8.5px] font-extrabold text-[#C5A85A] uppercase font-mono">CIVIL & CONTRACTS</span>
+                <h4 class="text-stone-900 font-bold font-serif text-sm">Specific Relief Act 1877</h4>
+                <p class="text-[10px] text-stone-400 font-light">Controls specific performance of contracts, injunctions, and declaratory lawsuits.</p>
+              </div>
+              <button onclick="injectPresetAndSwitch('Explain Section 42 of Specific Relief Act')" class="p-1 px-2.5 text-[8.5px] font-bold text-[#006B44] bg-emerald-50 rounded border border-emerald-100">Browse</button>
+            </div>
+
+            <div class="bg-white border border-stone-200/60 p-4 rounded-xl flex justify-between items-start hover:shadow-md transition-shadow">
+              <div class="space-y-1.5">
+                <span class="text-[8.5px] font-extrabold text-[#C5A85A] uppercase font-mono">BUSINESS & TELECOMS</span>
+                <h4 class="text-stone-900 font-bold font-serif text-sm">Prevention of Electronic Crimes Act 2016</h4>
+                <p class="text-[10px] text-stone-400 font-light">Governing digital defalcation, cyberstalking, hacking, and privacy intrusions.</p>
+              </div>
+              <button onclick="injectPresetAndSwitch('Cyberstalking offenses in PECA 2016')" class="p-1 px-2.5 text-[8.5px] font-bold text-[#006B44] bg-emerald-50 rounded border border-emerald-100">Browse</button>
+            </div>
+
+            <div class="bg-white border border-stone-200/60 p-4 rounded-xl flex justify-between items-start hover:shadow-md transition-shadow">
+              <div class="space-y-1.5">
+                <span class="text-[8.5px] font-extrabold text-[#C5A85A] uppercase font-mono">FAMILY LAW</span>
+                <h4 class="text-stone-900 font-bold font-serif text-sm">Muslim Family Laws Ordinance 1961</h4>
+                <p class="text-[10px] text-stone-400 font-light">Provisions including Haq Mehr dower registry, polygamy notices, and Khula divorces.</p>
+              </div>
+              <button onclick="injectPresetAndSwitch('Muslim Family Laws 1961 section 7 process')" class="p-1 px-2.5 text-[8.5px] font-bold text-[#006B44] bg-emerald-50 rounded border border-emerald-100">Browse</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 3: DRAFTS STUDIO ==================== -->
+      <section id="pane-drafts" class="absolute inset-0 flex flex-col hidden bg-[#FAF9F5] overflow-y-auto p-6 animate-fade-in">
+        <div class="max-w-4xl mx-auto space-y-6 w-full">
+          <div class="flex flex-col md:flex-row gap-6">
+            <!-- Sidebar list of templates -->
+            <div class="w-full md:w-64 space-y-2 shrink-0">
+              <span class="text-[9px] font-extrabold text-stone-400 uppercase tracking-widest block">CHOOSE DRAFT TYPE</span>
+              <button onclick="selectDraft(0)" id="draft-item-0" class="w-full text-left p-2 px-3 border border-emerald-800 text-emerald-900 bg-emerald-50 rounded-lg text-xs font-semibold hover:bg-stone-50 transition-colors block">
+                Pre-Arrest Bail CrPC 498
+              </button>
+              <button onclick="selectDraft(1)" id="draft-item-1" class="w-full text-left p-2 px-3 border border-stone-200/65 bg-white text-stone-700 rounded-lg text-xs font-semibold hover:bg-stone-50 transition-colors block">
+                Commercial Lease Form
+              </button>
+              <button onclick="selectDraft(2)" id="draft-item-2" class="w-full text-left p-2 px-3 border border-stone-200/65 bg-white text-stone-700 rounded-lg text-xs font-semibold hover:bg-stone-50 transition-colors block">
+                Debt Recovery Legal Notice
+              </button>
+            </div>
+
+            <!-- Main drafting terminal edit board -->
+            <div class="flex-grow flex flex-col space-y-4 bg-white border border-stone-200 p-5 rounded-xl shadow-xs">
+              <div class="flex justify-between items-center border-b border-stone-100 pb-3">
+                <div>
+                  <h4 class="text-stone-900 font-bold text-sm" id="draft-pane-title">Pre-Arrest Bail Application</h4>
+                  <p class="text-[9.5px] text-stone-400 font-mono" id="draft-pane-badge">Category: CrPC 1898 - Sec 498</p>
+                </div>
+                <!-- Export trigger -->
+                <button onclick="exportDoc()" class="p-2 bg-emerald-800 hover:bg-emerald-950 text-white rounded-lg text-xs font-bold tracking-wider flex items-center gap-1.5 transition-colors">
+                  <i data-lucide="download" class="w-3.5 h-3.5"></i> Export Live Document
+                </button>
+              </div>
+
+              <textarea id="drafting-textarea" class="w-full h-96 p-3.5 font-mono text-xs bg-stone-50 border border-stone-200 focus:border-[#C5A85A] outline-none text-stone-800 rounded-lg tracking-tight resize-y leading-relaxed">
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 4: COURT FEE CALCULATOR ==================== -->
+      <section id="pane-court-fee" class="absolute inset-0 flex flex-col hidden bg-[#FAF9F5] overflow-y-auto p-6 animate-fade-in">
+        <div class="max-w-xl mx-auto w-full bg-white border border-stone-200 p-6 rounded-2xl shadow-sm space-y-6">
+          <div class="flex items-center gap-2.5 pb-3 border-b border-stone-100">
+            <div class="w-9 h-9 rounded-lg bg-emerald-800 flex items-center justify-center text-white">
+              <i data-lucide="calculator" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h4 class="text-stone-900 font-serif font-black text-base">Provincial Court Fee Calculator</h4>
+              <p class="text-[10px] text-stone-400 leading-none">Government structure fee rate indexes updated to 2026</p>
+            </div>
+          </div>
+
+          <!-- Fields -->
+          <div class="space-y-4 text-xs font-medium">
+            <div class="space-y-1">
+              <label class="text-stone-500">Provincial Domain Jurisdictions</label>
+              <select id="fee-province" class="w-full p-2.5 border border-stone-200 bg-white rounded-lg text-xs">
+                <option value="punjab">Punjab province (7.5% capped at max PKR 15,000)</option>
+                <option value="sindh">Sindh province (7.5% capped at max PKR 25,000)</option>
+                <option value="kpk">Khyber Pakhtunkhwa (Flat 7.5% maximum rate)</option>
+                <option value="islamabad">Islamabad Capital Territory</option>
+              </select>
+            </div>
+
+            <div class="space-y-1">
+              <label class="text-stone-500">Valuation of the Suit (PKR)</label>
+              <input type="number" id="fee-suit-val" value="100000" class="w-full p-2.5 border border-stone-200 bg-white rounded-lg text-xs" />
+            </div>
+
+            <button onclick="calculateFee()" class="w-full py-2.5 bg-[#006B44] hover:bg-emerald-950 text-white rounded-lg text-xs font-bold tracking-wider uppercase transition-colors">
+              Calculate Fee Rates
+            </button>
+          </div>
+
+          <!-- Results -->
+          <div class="p-4 bg-stone-50 border border-stone-150 rounded-xl space-y-2 hidden" id="fee-result-card">
+            <span class="text-[9px] font-extrabold text-[#C5A85A] tracking-widest uppercase block">CALCULATION BREAKDOWN</span>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-stone-450">Standard Assessment Formula:</span>
+              <span class="font-bold text-stone-800" id="fee-formula-lbl">7.5% of Suit Valuation</span>
+            </div>
+            <div class="flex justify-between items-center text-sm pt-2 border-t border-stone-200">
+              <span class="font-bold text-stone-900 font-serif">Payable Court Fees:</span>
+              <span class="font-black text-emerald-800 text-lg" id="fee-total-lbl">PKR 7,500/=</span>
+            </div>
+            <p class="text-[9px] text-stone-400 font-light pt-1.5 leading-normal border-t border-stone-100 mt-1">Calculated under Court Fees Act 1870, ensuring respective High Court amendment caps.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 5: LIMITATION APPARATUS ==================== -->
+      <section id="pane-limitation" class="absolute inset-0 flex flex-col hidden bg-[#FAF9F5] overflow-y-auto p-6 animate-fade-in">
+        <div class="max-w-xl mx-auto w-full bg-white border border-[#E7E5DD] p-6 rounded-2xl shadow-sm space-y-6">
+          <div class="flex items-center gap-2.5 pb-3 border-b border-stone-100">
+            <div class="w-9 h-9 rounded-lg bg-emerald-800 flex items-center justify-center text-white">
+              <i data-lucide="clock" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h4 class="text-stone-900 font-serif font-black text-base">Limitation Period Apparatus</h4>
+              <p class="text-[10px] text-stone-400 leading-none">Schedule 1 of the Limitation Act 1908 statutory bounds</p>
+            </div>
+          </div>
+
+          <div class="space-y-4 text-xs font-medium">
+            <div class="space-y-1">
+              <label class="text-stone-500">Legal Recourse Remedy Type</label>
+              <select id="limitation-type" onchange="runLimitationLookup()" class="w-full p-2.5 border border-stone-200 bg-white rounded-lg text-xs">
+                <option value="criminal-appeal">Appeal to High Court against a death sentence</option>
+                <option value="criminal-other">Appeal against general criminal convictions</option>
+                <option value="declaration">civil lawsuit for declaration of rights</option>
+                <option value="written-statement">Filing of written statement in civil lawsuits</option>
+                <option value="specific-contract">Specific performance of a contract</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Show result automatically -->
+          <div class="p-4.5 bg-[#006B44]/5 border border-emerald-800/15 rounded-xl space-y-3.5" id="limitation-box">
+            <div class="flex justify-between items-center pb-2 border-b border-emerald-800/10">
+              <span class="text-[9px] font-extrabold text-[#C5A85A] tracking-wider uppercase block">LIMITATION SUMMARY</span>
+              <span class="text-[9px] text-[#006B44] font-black bg-emerald-50 px-2 py-0.5 rounded border border-emerald-150 font-mono" id="limitation-article">Article 150</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <span class="text-[8.5px] text-stone-400 font-semibold block uppercase tracking-wide">ALLOWED TERM WINDOW</span>
+                <span class="text-stone-900 font-black text-base font-serif" id="limitation-period">7 Days</span>
+              </div>
+              <div>
+                <span class="text-[8.5px] text-stone-400 font-semibold block uppercase tracking-wide">TRIGGERING MILESTONE</span>
+                <p class="text-stone-800 font-medium text-[10.5px] leading-tight" id="limitation-trigger">From the date of sentence passing</p>
+              </div>
+            </div>
+            <div class="pt-2.5 border-t border-emerald-800/10 text-[9px] text-stone-405 leading-relaxed font-light">
+              <strong>Ground Reference:</strong> Schedules of the Limitation Act, 1908. Non-observance on expiry leads to rejection of court appeals under Section 3.
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==================== ONBOARDING SYSTEM MODAL ==================== -->
+  <div id="onboarding-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs select-none">
+    <div class="bg-[#FAF9F5] border border-[#E7E5DD] max-w-lg w-full rounded-2xl p-6 shadow-2xl relative overflow-hidden animate-scale-up space-y-6">
+      
+      <!-- Brand title inside modal -->
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-800 flex items-center justify-center text-white mx-auto shadow-md">
+          <i data-lucide="scale" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-serif font-black text-stone-900 text-lg tracking-tight mt-1">Configure Your LexPK AI Engine</h3>
+        <p class="text-[10px] text-stone-400 font-light uppercase tracking-wider">Democratizing Pakistani Law in real-time</p>
+      </div>
+
+      <!-- Grid selector of profiles with custom legal setups -->
+      <div class="space-y-3">
+        <!-- 1: Lawyer -->
+        <button onclick="selectProfile('lawyer')" class="w-full text-left p-4.5 bg-white border border-stone-200 rounded-xl hover:border-[#006B44] hover:shadow-md transition-all flex items-start gap-4">
+          <div class="w-8 h-8 rounded-full bg-[#006B44]/10 border border-[#006B44]/20 flex items-center justify-center text-[#006B44] shrink-0">
+            <i data-lucide="briefcase" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h5 class="text-stone-905 font-bold font-serif text-xs">Vakeel Profile (Senior Advocate)</h5>
+            <p class="text-[10px] text-stone-450 font-light mt-0.5">Optimized for court citation search, CPC rules, pre-arrest applications, and case record digests.</p>
+          </div>
+        </button>
+
+        <!-- 2: Student -->
+        <button onclick="selectProfile('student')" class="w-full text-left p-4.5 bg-white border border-stone-200 rounded-xl hover:border-[#006B44] hover:shadow-md transition-all flex items-start gap-4">
+          <div class="w-8 h-8 rounded-full bg-[#006B44]/10 border border-[#006B44]/20 flex items-center justify-center text-[#006B44] shrink-0">
+            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h5 class="text-stone-905 font-bold font-serif text-xs">Talib-e-Ilm (Law Student / Academic)</h5>
+            <p class="text-[10px] text-stone-450 font-light mt-0.5">Deep theoretical explanations, Latin constitutional maxims, and fundamental rights history review.</p>
+          </div>
+        </button>
+
+        <!-- 3: Citizen -->
+        <button onclick="selectProfile('citizen')" class="w-full text-left p-4.5 bg-white border border-stone-200 rounded-xl hover:border-[#006B44] hover:shadow-md transition-all flex items-start gap-4">
+          <div class="w-8 h-8 rounded-full bg-[#006B44]/10 border border-[#006B44]/20 flex items-center justify-center text-[#006B44] shrink-0">
+            <i data-lucide="users" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h5 class="text-stone-905 font-bold font-serif text-xs">Aam Shehri (Ordinary Citizen Partner)</h5>
+            <p class="text-[10px] text-stone-450 font-light mt-0.5">Basic rights explanations, tenant support, family custody, and police station complaint guides in plain human tongues.</p>
+          </div>
+        </button>
+      </div>
+
+      <div class="pt-2 text-center text-[9px] text-stone-400">
+        You may modify this chosen profile dynamically anytime inside the application.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== LOGICS AND SCRIPTS ==================== -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Check if initial URL parameter query is posed
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const query = urlParams.get('q');
+      const tabParam = urlParams.get('tab');
+      
+      if (query) {
+        // Switch profile automatically to Citizen helper for immediate response
+        selectProfile('citizen');
+        injectPresetAndSwitch(query);
+      } else if (tabParam) {
+        selectProfile('lawyer');
+        switchTab(tabParam);
+      }
+    });
+
+    let currentProfile = null;
+    let chatHistory = [];
+
+    // Profiles Configuration Map
+    const PROFILES_MAP = {
+      lawyer: {
+        title: "Vakeel (Advocate) Workspace",
+        avatar: "briefcase",
+        desc: "Strict litigation priorities. Cites verified supreme court precedents, PPC code sections, and tax laws.",
+        greeting: "⚖️ **Welcome to Vakeel (Lawyer) Workspace.**\n\nI have configured the reasoning engine for senior-level Pakistani litigation. I will prioritize precise citations from the Pakistan Penal Code (PPC), Code of Criminal Procedure (CrPC), and verified judgments of the Supreme Court of Pakistan and provincial High Courts. What case, provision, or litigation strategy can we deconstruct today?"
+      },
+      student: {
+        title: "Talib-e-Ilm Academic Hub",
+        avatar: "graduation-cap",
+        desc: "Emphasizes core legal definitions, constitutional review histories, and Latin legal doctrines.",
+        greeting: "📚 **Welcome to Talib-e-Ilm (Student) Hub.**\n\nI have aligned my knowledge-base to emphasize core legal academic doctrines, Latin legal maxims, constitutional histories, and definitions. Ideal for LLB studies, statutory research papers, and bar exam preparations. Ask me anything to deconstruct!"
+      },
+      citizen: {
+        title: "Aam Shehri Citizen Helper",
+        avatar: "users",
+        desc: "Plain human language guides step-by-step through basic custody, tenancy, and civil rights.",
+        greeting: "💬 **Welcome to Citizen Helper (Aam Shehri).**\n\nMy legal engine is ready to assist you in simple, plain human English or Urdu without confusing legalese. I can guide you step-by-step through basic civil rights, filing of police FIRs, Khula divorce procedures, or tenant disputes."
+      }
+    };
+
+    // Prepopulated quick query pills based on chosen profile
+    const PROFILE_PILLS = {
+      lawyer: [
+        { label: "Bail application CrPC 498", query: "Drafting pre arrest bail under CrPC 498 guide" },
+        { label: "Land ownership CPC 104", query: "Explain procedure of CPC 104 rights search" },
+        { label: "Specific performance laws", query: "Section 12 of Specific relief Act 1877 parameters" }
+      ],
+      student: [
+        { label: "Latin maxims exam guide", query: "10 essential Latin legal maxims and definitions for LL.B" },
+        { label: "judicial review Pakistan history", query: "evolution of constitutional review and fundamental rights in pakistan" },
+        { label: "Doctrine of Necessity cases", query: "Doctrine of necessity historical cases in Pakistan supreme court" }
+      ],
+      citizen: [
+        { label: "How to file FIR at police?", query: "Filing an FIR in Pakistan code of criminal procedure guide" },
+        { label: "Rights on arrest - Art 10", query: "What are my rights if arrested by police under Article 10 of constitution?" },
+        { label: "Who gets custody in divorces?", query: "child custody rules in pakistan for mother and father" }
+      ]
+    };
+
+    // Static responsive mockup responses for demo mode
+    const ANSWER_DATABASE = {
+      "explained ppc 349 theft punishment": `📜 **Section 379 of the Pakistan Penal Code (PPC):**\n\nTheft is considered a serious cognizable offence under Pakistani statutory law.\n\n**OFFENCE PARAMETERS:**\n1. **Punishment**: Imprisonment up to **3 years**, fine, or both.\n2. **Bail Category**: strictly Non-Bailable under Criminal Procedural Schedule 2.\n3. **Citing Precedents**: *2024 SCMR 189* - The Supreme Court ruled that where properties are successfully recovered, intermediate bail parameters may look favorable.`,
+      
+      "explain section 42 of specific relief act": `📜 **Section 42 of Specific Relief Act 1877:**\n\nSection 42 governs lawsuits of **Specific Declaration of Title or Rights**.\n\n**CRITICAL CORE REQUIREMENTS:**\n1. **Entitlement**: The plaintiff must have a legal character or right to any property.\n2. **Denial**: The defendant must be denying (or interested in denying) that rights status.\n3. **Effect of Proviso**: A pure declaration will **not** be granted if the plaintiff is able to seek further consequential relief (e.g. possession) but omitted doing so.`,
+
+      "cyberstalking offenses in peca 2016": `📜 **Section 21 of the Prevention of Electronic Crimes Act (PECA) 2016:**\n\nPenalties on electronic stalking or cyber harassment against women and citizens are heavily prosecuted:\n\n**KEY BOUNDS:**\n1. **Offence**: Transmission of private pictures, texts or coordinates with malicious intent to vex.\n2. **Statutory Sentence**: Up to 3 years imprisonment or PKR 1 Million fine or both.\n3. **Appellate Body**: Specialized cybercrime session courts monitored by FIA.`,
+
+      "muslim family laws 1961 section 7 process": `📜 **Muslim Family Laws Ordinance, 1961 (Section 7):**\n\nProcedure for unilateral dissolution or verbal/written Talaq:\n\n1. **Notice Requirement**: Husband must dispatch written notice of divorce to the local Union Council Chairman immediately.\n2. **Copy Delivery**: Copy of written statement must be delivered to the wife.\n3. **Arbitration Stage**: Arbitration Council meets within 30 days to attempt matrimonial reconciliation.\n4. **Finality Milestone**: Dissolution takes absolute effect upon expiry of **90 days** from date search notice is filed.`,
+
+      "drafting pre arrest bail under crpc 498 guide": `📜 **Pre-Arrest Bail Drafting Parameters (Sec 498 CrPC):**\n\nPre-arrest ad-interim protection demands specific conditions:\n\n**MANDATORY STATUTORY PLEAS:**\n1. Must establish presence of **mala-fide, ulterior movie or harassment** by comaplainant.\n2. Petitioner must demonstrate extreme threat to liberty or safety.\n3. Petitioner warrants willingness to surrender and join investigation instantly.\n\n*View our Quick Court Drafts Studio on the left to review the full templated court application copy.*`,
+
+      "filing an fir in pakistan code of criminal procedure guide": `👮 **Filing a First Information Report (FIR) - Section 154 CrPC:**\n\nIf you need to report a cognizable crime in Pakistan, follow these steps strictly:\n\n1. **Approach local SHO**: Proceed immediately to the Police Station having territorial jurisdiction.\n2. **Oral or Written Report**: Inform police of facts. They must write it down, read it back to you, and execute your signature.\n3. **Gratis Copy**: By law, police **MUST** deliver a certified copy of the FIR to you free of cost.\n4. **Remedy for Refusal**: If the SHO refuses, you can file an application to the SP or file a writ petition under Section 22-A of CrPC before the Sessions Judge.`
+    };
+
+    // Profiles Selector Modal triggers
+    function selectProfile(profileKey) {
+      currentProfile = profileKey;
+      const data = PROFILES_MAP[profileKey];
+      
+      // Update sidebar visual indicator
+      document.getElementById('role-title-lbl').textContent = data.title;
+      document.getElementById('role-desc-lbl').textContent = data.desc;
+      
+      const icon = document.getElementById('role-avatar-icon');
+      icon.setAttribute('data-lucide', data.avatar);
+      
+      // Clear messages and inject initial profile welcome greeting
+      chatHistory = [];
+      document.getElementById('chat-messages-container').innerHTML = '';
+      
+      appendBotMessage(data.greeting);
+      
+      // Load quick pills mapping
+      loadDynamicPills(profileKey);
+
+      // Close modal
+      document.getElementById('onboarding-modal').classList.add('hidden');
+      lucide.createIcons();
+    }
+
+    function openOnboarding() {
+      document.getElementById('onboarding-modal').classList.remove('hidden');
+    }
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('backdrop');
+      if (sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        backdrop.classList.add('opacity-100');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    // Tab Navigation toggler
+    function switchTab(tabKey) {
+      // Hide all panels
+      const panes = ['chat', 'library', 'drafts', 'court-fee', 'limitation'];
+      panes.forEach(pane => {
+        document.getElementById(`pane-${pane}`).classList.add('hidden');
+        document.getElementById(`tab-btn-${pane}`).className = "w-full px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-2.5 transition-colors cursor-pointer text-stone-400 hover:bg-stone-850/50";
+      });
+
+      // Show targeting panel
+      document.getElementById(`pane-${tabKey}`).classList.remove('hidden');
+      document.getElementById(`tab-btn-${tabKey}`).className = "w-full px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-2.5 transition-colors cursor-pointer bg-emerald-800/20 text-[#FAF9F5] border border-emerald-850/50";
+
+      // Configure title/subtitle header metrics
+      const headerTitle = document.getElementById('active-panel-title');
+      const headerSubtitle = document.getElementById('active-panel-subtitle');
+
+      if (tabKey === 'chat') {
+        headerTitle.textContent = "AI Vakeel Assistant Chat";
+        headerSubtitle.textContent = "LLaMA-3.3 Custom Grounded Constitutional Panel";
+      } else if (tabKey === 'library') {
+        headerTitle.textContent = "Verified Pakistan Codes";
+        headerSubtitle.textContent = "Access 1,130 Legal Federal Statutes";
+      } else if (tabKey === 'drafts') {
+        headerTitle.textContent = "Quick Court Drafts Studio";
+        headerSubtitle.textContent = "Exportable Litigation & Legal Corporate Templates";
+        selectDraft(0); // init default pre arrest bail draft on load
+      } else if (tabKey === 'court-fee') {
+        headerTitle.textContent = "Provincial Court Fee Calculator";
+        headerSubtitle.textContent = "Capped and Custom high-court formulas";
+      } else if (tabKey === 'limitation') {
+        headerTitle.textContent = "Limitation Period Apparatus";
+        headerSubtitle.textContent = "Federal Limitation Act 1908 schedule search tools";
+        runLimitationLookup();
+      }
+
+      // Close mobile side drawers
+      const sidebar = document.getElementById('sidebar');
+      if (!sidebar.classList.contains('-translate-x-full')) {
+        toggleMobileSidebar();
+      }
+      lucide.createIcons();
+    }
+
+    // Dynamic quick-question pills loader
+    function loadDynamicPills(profileKey) {
+      const pillContainer = document.getElementById('chat-pills-bar');
+      pillContainer.innerHTML = '';
+      
+      const pills = PROFILE_PILLS[profileKey];
+      pills.forEach(pill => {
+        const btn = document.createElement('button');
+        btn.className = "px-3 py-1.5 bg-white border border-stone-200/80 hover:border-[#006B44] rounded-full text-[10.5px] font-semibold text-stone-605 whitespace-nowrap shadow-xs hover:text-[#006B44] transition-all cursor-pointer shrink-0";
+        btn.textContent = pill.label;
+        btn.onclick = () => {
+          injectPresetAndSwitch(pill.query);
+        };
+        pillContainer.appendChild(btn);
+      });
+    }
+
+    function injectPresetAndSwitch(queryText) {
+      switchTab('chat');
+      document.getElementById('chat-input-field').value = queryText;
+      sendChatMessage();
+    }
+
+    function appendUserMessage(text) {
+      const container = document.getElementById('chat-messages-container');
+      const time = new Date().toLocaleTimeString('en-PK', { hour: 'numeric', minute: '2-digit' });
+      
+      const div = document.createElement('div');
+      div.className = "flex flex-col items-end gap-1.5 animate-fade-in";
+      div.innerHTML = `
+        <div class="px-4 py-2.5 bg-[#006B44] text-white rounded-2xl rounded-tr-xs text-xs max-w-[80%] font-medium leading-relaxed shadow-sm">
+          ${text}
+        </div>
+        <span class="text-[9px] text-stone-400 font-medium mr-2 font-mono">Sent at ${time}</span>
+      `;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function appendBotMessage(rawText) {
+      const container = document.getElementById('chat-messages-container');
+      const time = new Date().toLocaleTimeString('en-PK', { hour: 'numeric', minute: '2-digit' });
+
+      // Convert Markdown elements representation safely to HTML formats
+      let cleanedText = rawText;
+      cleanedText = cleanedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      cleanedText = cleanedText.split('\n\n').map(p => `<p class="leading-relaxed font-light">${p}</p>`).join('');
+
+      const div = document.createElement('div');
+      div.className = "flex flex-col items-start gap-1.5 animate-fade-in";
+      div.innerHTML = `
+        <div class="flex items-center gap-1.5">
+          <div class="w-6 h-6 rounded-full bg-emerald-800 flex items-center justify-center text-white">
+            <i data-lucide="scale" class="w-3.5 h-3.5"></i>
+          </div>
+          <span class="text-[8.5px] font-extrabold uppercase text-[#C5A85A] tracking-wider font-mono">AI Vakeel Intelligence</span>
+        </div>
+        <div class="px-4 py-3.5 bg-white border border-stone-200/90 rounded-2xl rounded-tl-xs text-xs text-stone-800 space-y-2 max-w-[85%] shadow-xs transform inline-block whitespace-pre-line">
+          ${cleanedText}
+        </div>
+        <span class="text-[9px] text-stone-450 font-medium ml-2 font-mono">Delivered • ${time}</span>
+      `;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+      lucide.createIcons();
+    }
+
+    // Simulated Chat send operation handler
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input-field');
+      const query = input.value.trim();
+      if (!query) return;
+
+      appendUserMessage(query);
+      input.value = '';
+
+      // Create "Thinking" state bubble
+      const container = document.getElementById('chat-messages-container');
+      const thinkDiv = document.createElement('div');
+      thinkDiv.className = "flex gap-2.5 items-center animate-fade-in py-2";
+      thinkDiv.id = "thinking-chat-bubble";
+      thinkDiv.innerHTML = `
+        <div class="w-6 h-6 rounded-full bg-stone-200 flex items-center justify-center text-stone-500">
+          <i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i>
+        </div>
+        <div class="px-3 py-1.5 bg-white border border-stone-200 rounded-xl flex gap-1">
+          <span class="w-2 h-2 rounded-full bg-emerald-800 animate-bounce" style="animation-delay: 0s"></span>
+          <span class="w-2 h-2 rounded-full bg-emerald-800 animate-bounce" style="animation-delay: 0.2s"></span>
+          <span class="w-2 h-2 rounded-full bg-emerald-800 animate-bounce" style="animation-delay: 0.4s"></span>
+        </div>
+      `;
+      container.appendChild(thinkDiv);
+      container.scrollTop = container.scrollHeight;
+      lucide.createIcons();
+
+      // Answer Retrieval simulated timer
+      setTimeout(() => {
+        thinkDiv.remove();
+
+        // Check if query answers exist static, otherwise use smart dynamic fallback
+        const key = query.toLowerCase().replace(/[\?\.\-]/g, '');
+        let response = '';
+        
+        if (ANSWER_DATABASE[key]) {
+          response = ANSWER_DATABASE[key];
+        } else {
+          response = `⚖️ **Evaluation Summary of your inquiry:**\n\nI have evaluated your question: "${query}" against current Pakistani general statutory codes matching your configured active profile (${currentProfile ? currentProfile.toUpperCase() : 'GENERAL'}).\n\n**CORE STATUTE CONTEXT:**\n1. **Applicable Code**: Relevant statutory provisions (including PPC, CPC or Constitution Articles) apply.\n2. **Legal Recommendation**: Consult a licensed High Court advocate for formal representation or browse the interactive **Provincial Court Fee** / **Limitation Period** calculators on the left sidebar for details.\n\n*Note: This response is grounded securely in official Pakistan Gazettes.*`;
+        }
+
+        appendBotMessage(response);
+      }, 1500);
+    }
+
+
+    // MacBook/Drafting Studio document templates
+    const TEMPLATE_DOCS = [
+      {
+        title: "Pre-Arrest Bail Application",
+        badge: "Category: CrPC 1898 - Sec 498",
+        content: `IN THE COURT OF THE SESSIONS JUDGE, LAHORE
+Criminal Miscellaneous No. 40821-B / 2026
+
+Mian Faisal, S/o Muhammad Sharif,
+Resident of House 12-A, Gulberg III, Lahore, Pakistan. ... Petitioner
+
+VERSUS
+
+The State & Another ... Respondents
+
+APPLICATION UNDER SECTION 498 OF CODE OF CRIMINAL PROCEDURE 1898 FOR THE GRANT OF AD-INTERIM PRE-ARREST BAIL IN FIR NO. 452/2026 UNDER SECTION 379 PPC, POLICE STATION GULBERG, LAHORE.
+
+Respectfully Sheweth:
+1. That the Petitioner has been falsely and maliciously implicated in the above-mentioned FIR at the behest of a local business rival with absolute mala-fide intentions.
+2. That the Petitioner is a law-abiding respectable citizen, has no previous criminal record, and is ready and willing to join the investigation to establish absolute innocence.
+3. That the custodial interrogation of the Petitioner is neither useful nor warranted under established Pakistani jurisprudence as no physical query remains pending.
+4. That the Petitioner is willing to furnish reliable surety bonds for absolute satisfaction of this Honourable Court.
+
+PRAYER:
+It is therefore most respectfully prayed that ad-interim pre-arrest bail may kindly be granted to the Petitioner, and the police concerned be directed not to arrest him till decision.
+
+Petitioner | Through Counsel Advocate Supreme Court of Pakistan`
+      },
+      {
+        title: "Commercial Lease Form",
+        badge: "Category: Punjab Rented Premises Act 2009",
+        content: `COMMERCIAL LEASE DEED
+This Commercial Lease Agreement is executed at Karachi on 30th May, 2026 by and between:
+
+Syed Ahmed Ali, CNIC: 42101-1234567-1, hereinafter referred to as LANDLORD.
+AND
+Vertex Tech Pvt Ltd, through CEO Muhammad Khan, CNIC: 35201-9876543-1, hereinafter referred to as TENANT.
+
+TERMS AND CONDITIONS:
+1. PREMISES: The Landlord hereby leases Office No. 402, 4th Floor, Clifton Centre, Clifton Road, Karachi.
+2. DURATION: This lease is granted for a fixed term of 3 (three) years commencing from 1st June, 2026.
+3. RENT & ESCALATION: The monthly rent is PKR 150,000/-, escalating at 10% annually at the end of each year.
+4. SECURITY DEPOSIT: The Tenant has paid security deposit of PKR 450,000/- (Refundable cleanly on lease expiry).
+5. DISPUTES: Governed by the Sindh Rented Premises Ordinance, 1979.
+
+In Witness Whereof, both parties have set hands and signatures on date mentioned.
+
+Landlord Representative: ______________
+Tenant Representative: ______________`
+      },
+      {
+        title: "Debt Recovery Legal Notice",
+        badge: "Category: Contract Act 1872 - Sec 73",
+        content: `LEGAL NOTICE FOR THE RECOVERY OF OUTSTANDING DEBT
+
+To:
+Apex Logistics House, Plot 89-B, Sector I-9, Islamabad.
+
+Dear Sirs,
+we serve you with this formal Legal Notice under Section 73 of the Contract Act, 1872 on behalf of our client:
+
+1. That our client Zenith Hardware Traders supplied high-grade hardware fittings, total PKR 2,800,000/-.
+2. That despite multiple written notices, you failed to clear the balance of PKR 1,200,000/-.
+3. That withholding of payments constitutes a severe breach of contract of business rules.
+
+REQUIREMENT:
+You are called to pay PKR 1,200,000/- along with legal search fees of PKR 50,000/- within 14 days, failing which we hold clear instructions to initiate civil legal operations before high courts of law.
+
+Chaudhary & Partners, Mall Road, Lahore`
+      }
+    ];
+
+    let selectedDraftIdx = 0;
+
+    function selectDraft(idx) {
+      selectedDraftIdx = idx;
+      
+      // Update sidebar active template styling
+      for (let i = 0; i < 3; i++) {
+        const item = document.getElementById(`draft-item-${i}`);
+        if(i === idx) {
+          item.className = "w-full text-left p-2 px-3 border border-emerald-800 text-emerald-900 bg-emerald-50 rounded-lg text-xs font-semibold hover:bg-stone-50 transition-colors block";
+        } else {
+          item.className = "w-full text-left p-2 px-3 border border-stone-200/65 bg-white text-stone-704 rounded-lg text-xs font-semibold hover:bg-stone-50 transition-colors block";
+        }
+      }
+
+      // Update drafting inputs
+      document.getElementById('draft-pane-title').textContent = TEMPLATE_DOCS[idx].title;
+      document.getElementById('draft-pane-badge').textContent = TEMPLATE_DOCS[idx].badge;
+      document.getElementById('drafting-textarea').value = TEMPLATE_DOCS[idx].content.trim();
+    }
+
+    function exportDoc() {
+      const txt = document.getElementById('drafting-textarea').value;
+      const blob = new Blob([txt], { type: 'text/plain' });
+      const elem = document.createElement('a');
+      elem.href = URL.createObjectURL(blob);
+      elem.download = `${TEMPLATE_DOCS[selectedDraftIdx].title.replace(/\s+/g, "_")}.txt`;
+      document.body.appendChild(elem);
+      elem.click();
+      document.body.removeChild(elem);
+    }
+
+
+    // Court Fee Calculators Logic
+    function calculateFee() {
+      const province = document.getElementById('fee-province').value;
+      const suitVal = parseFloat(document.getElementById('fee-suit-val').value) || 0;
+
+      let fee = 0;
+      let formula = '';
+      
+      if (province === 'punjab') {
+        fee = suitVal * 0.075;
+        if (fee > 15000) fee = 15000;
+        formula = "7.5% of valuation capped at max PKR 15,000/-";
+      } else if (province === 'sindh') {
+        fee = suitVal * 0.075;
+        if (fee > 25000) fee = 25000;
+        formula = "7.5% of valuation capped at max PKR 25,000/-";
+      } else if (province === 'kpk') {
+        fee = suitVal * 0.075;
+        formula = "Flat 7.5% of valuation uncapped";
+      } else if (province === 'islamabad') {
+        fee = suitVal * 0.075;
+        if (fee > 15000) fee = 15000;
+        formula = "7.5% capped at max PKR 15,000/=";
+      }
+
+      document.getElementById('fee-formula-lbl').textContent = formula;
+      document.getElementById('fee-total-lbl').textContent = `PKR ${fee.toLocaleString()}/=`;
+      document.getElementById('fee-result-card').classList.remove('hidden');
+    }
+
+
+    // Limitation Lookup logic options
+    const LIMITATION_DATA_KEYS = {
+      'criminal-appeal': {
+        article: "Article 150",
+        period: "7 Days",
+        trigger: "From date sentence of death is pronounced"
+      },
+      'criminal-other': {
+        article: "Article 154",
+        period: "30 Days",
+        trigger: "From judgment date of magistrate or trial court"
+      },
+      'declaration': {
+        article: "Article 120",
+        period: "6 Years",
+        trigger: "When right to sue first accrues to plaintiff"
+      },
+      'written-statement': {
+        article: "CPC Schedule",
+        period: "30 Days",
+        trigger: "From date of filing service of summons"
+      },
+      'specific-contract': {
+        article: "Article 113",
+        period: "3 Years",
+        trigger: "Date fixed for performance, or when breach occurs"
+      }
+    };
+
+    function runLimitationLookup() {
+      const type = document.getElementById('limitation-type').value;
+      const current = LIMITATION_DATA_KEYS[type];
+
+      document.getElementById('limitation-article').textContent = current.article;
+      document.getElementById('limitation-period').textContent = current.period;
+      document.getElementById('limitation-trigger').textContent = current.trigger;
+    }
+
+
+    // Default profile set is citizen
+    selectProfile('citizen');
+  </script>
+</body>
+</html>

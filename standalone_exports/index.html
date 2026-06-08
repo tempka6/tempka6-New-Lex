@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LexPK — Pakistan Legal Intelligence</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;450;500;600;750&family=Space+Grotesk:wght@400;500;700&family=Playfair+Display:ital,wght@0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            sansDisplay: ['Space Grotesk', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Styling scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF9F5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+    
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .animate-scale-in {
+      animation: scaleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+  </style>
+</head>
+<body class="bg-[#FAF9F5] min-h-screen font-sans text-stone-700 antialiased selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden relative">
+
+  <!-- Ambient grid background decoration -->
+  <div class="absolute inset-0 bg-[radial-gradient(rgba(200,168,75,0.04)_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+
+  <!-- Header Header -->
+  <header class="sticky top-0 z-40 bg-[#FAF9F5]/90 backdrop-blur-md border-b border-[#E7E5DD] px-6 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-emerald-800 rounded-xl flex items-center justify-center shadow-md">
+          <i data-lucide="scale" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <span class="font-serif text-xl font-bold text-stone-950 tracking-tight">LexPK</span>
+          <span class="hidden sm:inline-block text-[10px] text-stone-500 font-semibold tracking-wider uppercase ml-2 border-l border-[#E7E5DD] pl-2">
+            Pakistan Legal Intelligence
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#purpose" class="text-stone-600 hover:text-stone-900 text-sm font-medium transition-colors hidden md:inline-block">Purpose</a>
+        <a href="#mobile" class="text-stone-600 hover:text-stone-900 text-sm font-medium transition-colors hidden md:inline-block">Mobile</a>
+        <a href="#desktop" class="text-stone-600 hover:text-stone-900 text-sm font-medium transition-colors hidden md:inline-block">Workspace</a>
+        <a href="app.html" class="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-sm font-semibold transition-all shadow-md shadow-emerald-700/10">
+          Launch App
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative px-6 pt-16 pb-24 md:py-32 overflow-hidden">
+    <div class="max-w-4xl mx-auto text-center relative z-10 space-y-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full text-xs font-semibold text-emerald-800 uppercase tracking-widest mx-auto">
+        <span class="w-1.5 h-1.5 bg-emerald-600 rounded-full animate-pulse"></span>
+        AI-Powered Legal Hub
+      </div>
+
+      <h1 class="font-serif text-5xl md:text-7.5xl font-semibold text-stone-900 tracking-tight leading-none">
+        Pakistan Legal Intelligence <br />
+        <span class="text-emerald-700 italic font-medium font-serif">Made Simple & Clean</span>
+      </h1>
+
+      <p class="text-stone-600 text-lg max-w-xl mx-auto font-light leading-relaxed">
+        Get instant provision-based answers, browse verified law directories, and draft precise court documents — all in Pakistan’s unified legal dashboard.
+      </p>
+
+      <!-- Hero search bar redirected to actual interactive app with target query -->
+      <div class="max-w-2xl mx-auto pt-4">
+        <form action="app.html" method="GET" class="bg-white border-2 border-[#E7E5DD] focus-within:border-emerald-600 rounded-2xl p-2 shadow-xl flex items-center gap-2 transition-all">
+          <input
+            type="text"
+            name="q"
+            placeholder="Ask any legal questions in English or Urdu... (e.g. Fundamental Rights under 1973 Constitution)"
+            class="flex-1 px-4 py-3 text-sm text-stone-900 placeholder-stone-400 bg-transparent border-0 outline-none"
+          />
+          <button
+            type="submit"
+            class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-sm px-6 py-3 rounded-xl flex items-center gap-2 transition-colors shrink-0"
+          >
+            Ask Vakeel
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why LexPK Exists Purpose Section -->
+  <section id="purpose" class="py-24 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto border-t border-[#E7E5DD]/50">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Left Column Text -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="flex items-center gap-2 text-emerald-800 text-xs font-extrabold uppercase tracking-widest leading-none">
+          <span class="w-8 h-[2px] bg-emerald-800"></span>
+          OUR PURPOSE
+        </div>
+        <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-stone-900 leading-tight">
+          Why LexPK <br />
+          Exists
+        </h2>
+        <div class="space-y-5 text-stone-600 font-sans text-sm md:text-base leading-relaxed font-light">
+          <p>
+            Access to justice begins with access to knowledge. Yet Pakistani law — spanning over 1,130 federal acts, ordinances, and constitutional provisions from 1948 to 2026 — has remained locked behind complex language, expensive legal databases, and gatekept expertise.
+          </p>
+          <p>
+            LexPK is an AI-powered legal intelligence platform built to democratize access to Pakistani law. Grounded in verified official sources — PakistanCode.gov.pk, Supreme Court databases, FBR, National Assembly — it delivers provision-based answers citing exact sections, acts, and statutory text.
+          </p>
+          <p>
+            From a woman seeking her inheritance rights under Muslim Family Laws, to a startup navigating the Virtual Assets Act 2026, to a lawyer drafting a bail application under Section 498 — LexPK makes the law understandable, searchable, and actionable for every Pakistani.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Column Visual (Interactive visual simulator) -->
+      <div class="lg:col-span-5 relative mt-6 lg:mt-0">
+        <div class="relative p-6 md:p-10 rounded-3xl bg-radial from-stone-200/50 to-stone-100/15 border border-[#E7E5DD]/70 max-w-[480px] lg:max-w-none mx-auto shadow-sm">
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-stone-250/50 bg-stone-950 p-2 lg:p-3">
+            <!-- Screen container -->
+            <div class="relative rounded-lg overflow-hidden bg-stone-900 border border-stone-850 aspect-[16/10] flex flex-col">
+              <div class="p-3 bg-white flex-1 flex flex-col text-[10px] select-none text-stone-700 justify-between">
+                <div class="flex justify-between items-center border-b border-stone-100 pb-1.5 mb-2 shrink-0">
+                  <div class="flex items-center gap-1.5 text-[#006B44] font-bold">
+                    <i data-lucide="scale" class="w-3.5 h-3.5"></i>
+                    <span class="font-serif font-black text-stone-900 text-[9px] tracking-wide">LexPK Intelligence Node</span>
+                  </div>
+                  <div class="flex gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                  </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-end gap-2 pb-2">
+                  <div class="px-3 py-1.5 bg-[#006B44] text-white rounded-xl text-[8px] max-w-[80%] self-end font-medium leading-relaxed shadow-sm">
+                    How is Section 154 of CrPC used?
+                  </div>
+                  <div class="p-2.5 bg-[#FAF9F5] border border-stone-200/60 rounded-xl text-[7.5px] max-w-[90%] self-start text-stone-600 leading-relaxed shadow-xs">
+                    <strong class="text-[#006B44]">Section 154 CrPC</strong> mandates the registration of a First Information Report (FIR) for cognizable offences. It is the initial information delivered to the officer in charge of a police station...
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Overlapping Bottom Badge -->
+          <div class="absolute -bottom-4 left-4 right-4 bg-stone-950/95 border border-stone-800/80 backdrop-blur-md rounded-xl p-4 flex items-center gap-3.5 shadow-2xl">
+            <div class="w-10 h-10 rounded-lg bg-emerald-950/40 border border-emerald-950/60 flex items-center justify-center text-[#C5A85A] shrink-0">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h4 class="text-[#FAF9F5] text-xs font-bold leading-tight">Verified. Cited. Accurate.</h4>
+              <p class="text-stone-300 text-[10px] mt-1 font-light">Every answer cites exact statutory provisions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile Section -->
+  <section id="mobile" class="bg-[#12161A] border-y border-stone-800/40 py-24 px-6 overflow-hidden">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Left Column Text -->
+      <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+        <div class="flex items-center justify-center lg:justify-start gap-2 text-[#C5A85A] text-xs font-bold uppercase tracking-widest">
+          <span class="w-6 h-[1.5px] bg-[#C5A85A]/60"></span>
+          AVAILABLE ON MOBILE
+          <span class="w-6 h-[1.5px] bg-[#C5A85A]/60 lg:hidden"></span>
+        </div>
+        <h2 class="font-serif text-4xl md:text-5xl font-semibold text-[#FAF9F5] tracking-tight leading-tight">
+          Legal AI in <br class="hidden lg:block" /> Your Pocket
+        </h2>
+        <p class="text-stone-400 text-sm md:text-base leading-relaxed font-light max-w-sm mx-auto lg:mx-0">
+          Access Pakistani law anytime, anywhere. Search statutes, draft documents, and get cited answers — all from your phone with interactive live-updated answer engines.
+        </p>
+      </div>
+
+      <!-- Right Column iPhone Mockup with simulated typing LexPK interface -->
+      <div class="lg:col-span-6 relative flex justify-center items-center py-6">
+        <div class="relative mx-auto w-full max-w-[310px] animate-fade-in group select-none">
+          <!-- Phone Case Bezel Frame (iPhone 15 Pro look) -->
+          <div class="relative mx-auto rounded-[52px] bg-stone-900 p-3 shadow-2xl border-4 border-stone-800 transition-all">
+            <div class="absolute inset-0 rounded-[48px] border-[1.5px] border-white/10 pointer-events-none z-30"></div>
+            
+            <div class="absolute -left-1 top-28 w-[3px] h-10 bg-stone-800 rounded-r-sm"></div>
+            <div class="absolute -left-1 top-44 w-[3px] h-12 bg-stone-800 rounded-r-sm"></div>
+            <div class="absolute -left-1 top-60 w-[3px] h-12 bg-stone-800 rounded-r-sm"></div>
+            <div class="absolute -right-1 top-48 w-[3px] h-16 bg-stone-800 rounded-l-sm"></div>
+
+            <!-- Screen Area -->
+            <div class="relative rounded-[38px] bg-[#FAF9F5] overflow-hidden aspect-[9/19.5] flex flex-col z-20 shadow-inner">
+              <!-- Status Bar -->
+              <div class="h-10 px-6 pt-2 select-none flex justify-between items-center text-[10px] font-bold text-stone-950 font-sans tracking-wide z-20 shrink-0">
+                <span>12:00</span>
+                <div class="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-stone-950 rounded-full flex items-center justify-center z-50">
+                  <div class="absolute right-4 w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></div>
+                </div>
+                <div class="flex items-center gap-1.5 pt-0.5">
+                  <i data-lucide="wifi" class="w-3 h-3 text-stone-900"></i>
+                  <i data-lucide="battery" class="w-3.5 h-3.5 text-stone-900"></i>
+                </div>
+              </div>
+
+              <!-- Phone Header App Bar -->
+              <div class="px-4 py-2 border-b border-stone-200/60 bg-white flex justify-between items-center z-10 shrink-0">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-full bg-emerald-55/10 border border-emerald-80/20 flex items-center justify-center text-emerald-800 shadow-inner">
+                    <i data-lucide="scale" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-serif font-black text-stone-900 text-[10px] leading-tight flex items-center gap-1">
+                      LexAI Vakeel
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-650 animate-pulse inline-block"></span>
+                    </h4>
+                    <p class="text-[7.5px] text-stone-400 font-medium leading-none">Pakistan Legal Assistant</p>
+                  </div>
+                </div>
+                <span class="text-[7px] text-emerald-800 font-extrabold uppercase bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">
+                  PKR Laws
+                </span>
+              </div>
+
+              <!-- Interactive Phone Chat Body -->
+              <div class="flex-1 p-3 flex flex-col justify-between overflow-y-auto text-stone-700 bg-[#FAF9F5]/40 h-full relative scrollbar-none z-10">
+                <div class="space-y-3.5 pb-2" id="phone-chat-container">
+                  <div class="text-center">
+                    <span class="inline-block text-[7px] text-stone-400 uppercase font-bold tracking-widest bg-stone-100 rounded-full px-2.5 py-0.5">
+                      Today • Live Demo
+                    </span>
+                  </div>
+                  <!-- Dynamic message nodes will inject here -->
+                </div>
+              </div>
+
+              <!-- Input Bar -->
+              <div class="p-2 border-t border-stone-200/60 bg-white flex gap-2 items-center shrink-0 z-10">
+                <div class="flex-1 bg-[#FAF9F5] border border-stone-200 rounded-full px-3 py-1 flex justify-between items-center">
+                  <span class="text-[8.5px] text-stone-400">Ask Pakistan Code...</span>
+                  <i data-lucide="help-circle" class="w-3.5 h-3.5 text-stone-400"></i>
+                </div>
+                <div class="w-7 h-7 bg-emerald-800 text-white rounded-full flex items-center justify-center">
+                  <i data-lucide="send" class="w-3 h-3 text-white"></i>
+                </div>
+              </div>
+
+              <!-- Swipe Indicator -->
+              <div class="h-4 flex items-center justify-center shrink-0 bg-white z-10">
+                <div class="w-20 h-1 bg-stone-950 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Absolute category capsules -->
+          <div class="absolute -left-12 top-11 bg-[#1C2024]/90 border border-stone-800 text-[#C5A85A] px-2.5 py-1 rounded-full text-[8.5px] font-bold shadow-lg flex items-center gap-1 select-none hidden sm:flex">
+            <span>🇵🇰</span> 1130+ Federal Acts
+          </div>
+          <div class="absolute -right-12 bottom-12 bg-emerald-900 border border-emerald-800 text-[#FAF9F5] px-2.5 py-1 rounded-full text-[8.5px] font-bold shadow-lg flex items-center gap-1 select-none hidden sm:flex">
+            <i data-lucide="shield-check" class="w-3 h-3 text-[#C5A85A]"></i> Legal Guard Active
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Desktop Experience Section -->
+  <section id="desktop" class="py-24 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto border-b border-[#E7E5DD]/40">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Left Column Screenshot Visual representing interactive animated MacBook -->
+      <div class="lg:col-span-7 order-2 lg:order-1 flex flex-col justify-center items-center">
+        
+        <!-- Tab controllers -->
+        <div class="flex flex-wrap justify-center gap-2 mb-4" id="mac-tab-selectors">
+          <!-- Dynamic tab selectors will build here -->
+        </div>
+
+        <!-- MacBook Body Frame -->
+        <div class="relative w-full max-w-[760px]">
+          <!-- Top Screen Shell Lid -->
+          <div class="relative rounded-t-[20px] bg-stone-950 p-[9px] pb-3 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] border border-stone-800">
+            <!-- Screen container aspect-ratio 16/10 -->
+            <div class="relative rounded-lg overflow-hidden bg-stone-900 border border-stone-850 aspect-[16/10] flex flex-col">
+              <div class="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-30 animate-pulse"></div>
+
+              <!-- Camera bezel dot -->
+              <div class="absolute top-1.5 left-1/2 -translate-x-1/2 w-32 h-4 bg-transparent flex justify-center items-center z-40">
+                <div class="w-1.5 h-1.5 rounded-full bg-stone-950 border border-stone-800/40"></div>
+              </div>
+
+              <!-- Screen Inside -->
+              <div class="bg-[#FAF9F5] flex-1 flex flex-col text-[10px] text-stone-705 h-full relative">
+                <!-- Workspace Header bar -->
+                <div class="bg-white border-b border-stone-200/60 px-4 py-2.5 flex justify-between items-center shrink-0 z-10">
+                  <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-lg bg-emerald-800 flex items-center justify-center text-white font-serif font-bold">L</div>
+                    <h5 class="font-serif font-black text-stone-900 text-[10px] tracking-wide">
+                      LexPK Workspace <span class="font-sans font-medium text-[8px] text-emerald-800 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-100/50">Vakeel Pro</span>
+                    </h5>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="bg-stone-50 border border-stone-200 rounded-lg px-2 py-0.5 w-36 flex items-center justify-between text-[7px] text-stone-400">
+                      <span>Search law codes...</span>
+                      <i data-lucide="search" class="w-2.5 h-2.5"></i>
+                    </div>
+                    <span class="text-[7.5px] text-stone-400 flex items-center gap-1 font-mono">
+                      <i data-lucide="clock" class="w-2.5 h-2.5"></i> 10:24 AM PKT
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Main layout columns -->
+                <div class="flex-grow flex overflow-hidden">
+                  <!-- Sidebar -->
+                  <div class="w-28 bg-stone-50 border-r border-stone-200/60 p-2 space-y-2 flex flex-col justify-between shrink-0">
+                    <div class="space-y-2">
+                      <span class="text-[7px] font-extrabold text-stone-400 tracking-wider">WORKSPACE MENU</span>
+                      <ul class="space-y-1 text-[7.5px]" id="sidebar-tabs">
+                        <li class="bg-emerald-800/10 border border-emerald-800/20 px-2 py-1 rounded text-emerald-950 font-semibold flex items-center gap-1.5">
+                          <i data-lucide="scale" class="w-2.5 h-2.5 text-emerald-800"></i> Draft Studio
+                        </li>
+                        <li class="px-2 py-1 rounded text-stone-500 flex items-center gap-1.5"><i data-lucide="folder" class="w-2.5 h-2.5 text-stone-400"></i> Verified Codes</li>
+                        <li class="px-2 py-1 rounded text-stone-500 flex items-center gap-1.5"><i data-lucide="file-text" class="w-2.5 h-2.5 text-stone-400"></i> Precedents</li>
+                      </ul>
+                    </div>
+                    <div class="p-1.5 bg-[#006B44]/5 border border-[#006B44]/15 rounded-md text-[6.5px]">
+                      <span class="font-bold text-stone-805 block">Grounded Safe</span>
+                      <span class="text-stone-400">100% Citing Statutory Sources</span>
+                    </div>
+                  </div>
+
+                  <!-- Document Area -->
+                  <div class="flex-1 p-3.5 bg-white flex flex-col justify-between overflow-hidden">
+                    <div class="flex justify-between items-center pb-2 border-b border-stone-100">
+                      <div class="flex items-center gap-1.5">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5 text-emerald-850"></i>
+                        <div>
+                          <span class="text-[8.5px] font-bold text-stone-900" id="mac-filename">Bail_Application_498_CrPC.docx</span>
+                          <span class="text-[6.5px] text-stone-400 block" id="mac-status">Drafting...</span>
+                        </div>
+                      </div>
+                      <button class="px-2 py-1 bg-stone-50 border border-stone-200 rounded text-[7.5px] font-bold text-stone-600 flex items-center gap-1">
+                        <i data-lucide="download" class="w-2.5 h-2.5"></i> Export Word
+                      </button>
+                    </div>
+
+                    <!-- Writing terminal simulated box -->
+                    <div class="flex-grow mt-2.5 bg-stone-50 border border-stone-100 rounded-lg p-2.5 font-mono text-[6.5px] leading-normal overflow-y-auto text-stone-700 h-[115px] select-all" id="document-writer-pane">
+                      <!-- Typed contents show up here -->
+                    </div>
+
+                    <div class="mt-2.5 pt-1.5 border-t border-stone-100 flex justify-between items-center text-[7px]">
+                      <span class="font-black text-[#C5A85A] tracking-wider uppercase">CITED STATUTE SOURCE MAP</span>
+                      <span class="font-bold text-emerald-850 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100/50" id="mac-statute-badge">CrPC Sec 498</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Lower Deck Base Frame -->
+          <div class="relative bg-stone-300 h-3 w-full border-t border-stone-100/40 rounded-b-md"></div>
+          <div class="relative bg-stone-400 h-2.5 w-[96%] mx-auto rounded-b-[18px] border-t border-stone-200 flex justify-center shadow-[0_12px_24px_rgba(0,0,0,0.35)]">
+            <div class="w-16 h-1 bg-stone-550 rounded-b-md"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column Text -->
+      <div class="lg:col-span-5 space-y-6 order-1 lg:order-2">
+        <div class="flex items-center gap-2 text-[#C5A85A] text-xs font-bold uppercase tracking-widest">
+          <span class="w-8 h-[1.5px] bg-[#C5A85A]"></span>
+          DESKTOP EXPERIENCE
+        </div>
+        <h2 class="font-serif text-4xl md:text-5xl font-semibold text-stone-900 tracking-tight leading-tight">
+          LexAI on <br class="hidden lg:block" /> Desktop
+        </h2>
+        <p class="text-stone-600 text-sm md:text-base leading-relaxed font-light">
+          Professional legal assistance with a powerful, full-featured web workspace environment providing custom court drafters, calculators and intelligence modules.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grounded stats section -->
+  <section class="py-20 bg-white border-y border-[#E7E5DD]">
+    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="text-center space-y-1">
+        <h3 class="text-4xl font-serif font-bold text-stone-900">1,130+</h3>
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#C5A85A]">Federal Statutes</p>
+      </div>
+      <div class="text-center space-y-1">
+        <h3 class="text-4xl font-serif font-bold text-emerald-800">100%</h3>
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#C5A85A]">Grounded Citation</p>
+      </div>
+      <div class="text-center space-y-1">
+        <h3 class="text-4xl font-serif font-bold text-stone-900">75+</h3>
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#C5A85A]">Legal Drafts Studio</p>
+      </div>
+      <div class="text-center space-y-1">
+        <h3 class="text-4xl font-serif font-bold text-emerald-800">Instant</h3>
+        <p class="text-xs font-semibold uppercase tracking-widest text-[#C5A85A]">Verification Time</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-stone-950 text-stone-400 py-16 px-6 relative z-10 border-t border-stone-900">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-stone-900 pb-12">
+      <div class="space-y-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-800 flex items-center justify-center">
+            <i data-lucide="scale" class="w-4 h-4 text-white"></i>
+          </div>
+          <span class="font-serif text-[#FAF9F5] text-lg font-bold">LexPK</span>
+        </div>
+        <p class="text-xs font-light text-stone-500 leading-relaxed">
+          The ultimate AI-driven Pakistani statutory search tool and draft studio. Secure, cited, and absolutely democratized legal access.
+        </p>
+      </div>
+      <div>
+        <h5 class="text-white text-xs font-bold uppercase tracking-widest mb-4">Integrations</h5>
+        <ul class="space-y-2 text-xs font-light text-stone-500">
+          <li>PakistanCode.gov.pk</li>
+          <li>Supreme Court Gazette</li>
+          <li>FBR Customs Codes</li>
+          <li>Corporate SECP Act 2017</li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="text-white text-xs font-bold uppercase tracking-widest mb-4">Workspace Tools</h5>
+        <ul class="space-y-2 text-xs font-light text-stone-500">
+          <li><a href="app.html?tab=chat" class="hover:text-amber-500 transition-colors">Vakeel Intelligent Chat</a></li>
+          <li><a href="app.html?tab=drafts" class="hover:text-amber-500 transition-colors">Draft Template Engine</a></li>
+          <li><a href="app.html?tab=court-fee" class="hover:text-amber-500 transition-colors">Fee Calculators</a></li>
+          <li><a href="app.html?tab=limitation" class="hover:text-amber-500 transition-colors">Limitation Lookup</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="text-white text-xs font-bold uppercase tracking-widest mb-4">Advocacy</h5>
+        <ul class="space-y-2 text-xs font-light text-stone-500">
+          <li>Help Center</li>
+          <li>Marketplace Directory</li>
+          <li>Student Portals</li>
+          <li>Privacy Shield Policy</li>
+        </ul>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row justify-between items-center text-xs font-light text-stone-600 gap-4">
+      <p>© 2026 LexPK Legal Intelligence Platform. Created with authentic legal datasets.</p>
+      <div class="flex gap-6">
+        <a href="https://wa.me/923001234567" class="hover:text-[#FAF9F5] flex items-center gap-1"><i data-lucide="message-circle" class="w-3.5 h-3.5 text-[#25D366]"></i> Live Support</a>
+        <a href="#purpose" class="hover:text-[#FAF9F5]">Grounded Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Floating Trigger Button -->
+  <a
+    href="https://wa.me/923001234567"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="fixed bottom-6 left-6 z-50 w-12 h-12 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all text-white hover:bg-[#20ba59]"
+    title="Chat with Legal Advisor on WhatsApp"
+  >
+    <i data-lucide="message-circle" class="w-6 h-6 text-white fill-white"></i>
+  </a>
+
+  <!-- Circular Scroll to top button -->
+  <button
+    id="scroll-to-top-progress-button"
+    onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    class="fixed bottom-6 right-6 z-50 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group hidden"
+    title="Scroll to Top"
+  >
+    <svg class="absolute inset-0 w-full h-full -rotate-90">
+      <circle cx="24" cy="24" r="22" fill="transparent" stroke="#FAF9F5" stroke-width="2.5"></circle>
+      <circle id="scroll-circle-progress" cx="24" cy="24" r="22" fill="transparent" stroke="#1b1917" stroke-width="3.5" stroke-dasharray="138.23" stroke-dashoffset="138.23" stroke-linecap="round"></circle>
+    </svg>
+    <i data-lucide="chevrons-up" class="w-5 h-5 text-stone-850 relative z-10"></i>
+  </button>
+
+  <!-- SIMULATOR SCRIPTS -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Scroll progress trigger action
+    window.addEventListener('scroll', () => {
+      const scrollBtn = document.getElementById('scroll-to-top-progress-button');
+      const progressCircle = document.getElementById('scroll-circle-progress');
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      
+      if (total > 0) {
+        const pct = window.scrollY / total;
+        const totalOffset = 2 * Math.PI * 22; // ~138.23
+        const offset = totalOffset - (pct * totalOffset);
+        progressCircle.style.strokeDashoffset = offset;
+        
+        if (window.scrollY > 300) {
+          scrollBtn.classList.remove('hidden');
+        } else {
+          scrollBtn.classList.add('hidden');
+        }
+      }
+    });
+
+    // iPhone typewriter and chat cyclic simulation
+    const PHONE_QUERIES = [
+      {
+        question: "Is theft under PPC 379 bailable?",
+        answer: "Under **Section 379 of the Pakistan Penal Code (PPC)**, theft is categorized as a **non-bailable, cognizable offense**.\n\nKey parameters:\n1. **Punishment**: Imprisonment up to 3 years, fine, or both.\n2. **Appelate Court**: Judicial Magistrate of First Class.\n3. **Precedent**: *2024 SCMR 189* - Standard bail in petty thefts is usually denied if recovery of stolen property is outstanding.",
+        citation: "Pakistan Penal Code, Sec 379"
+      },
+      {
+        question: "What rights do I have upon arrest?",
+        answer: "Under **Article 10 of the 1973 Constitution of Pakistan**, every arrested citizen has fundamental safeguarded rights:\n\n1. **Grounds of Arrest**: You must be informed of grounds *immediately*.\n2. **Legal Counsel**: Right to consult and be defended by a lawyer of your choice.\n3. **24-Hour Rule**: Must be produced before a Magistrate within **24 hours** excluding transit time.\n4. **Remand Limit**: Police custody requires a custom judicial remand order.",
+        citation: "Constitution of Pakistan, Art 10"
+      },
+      {
+        question: "What is the procedure for Khula?",
+        answer: "Under the **Muslim Family Laws Ordinance, 1961**, a wife can seek judicial dissolution of marriage via Khula:\n\n1. **Filing Plaint**: Present family court suit.\n2. **Reconciliation**: Court triggers mandatory reconciliation stage within 30 days.\n3. **Dower Consideration**: Return of substantial portions of dower (Haq Mehr) received usually required.\n4. **Degree Issuance**: If reconciliation fails, court issues a decree of Khula.",
+        citation: "Family Laws Ord 1961, Sec 7"
+      }
+    ];
+
+    let queryIdx = 0;
+    const phoneContainer = document.getElementById('phone-chat-container');
+
+    function executePhoneCycle() {
+      // Clear containers (keeping dynamic demo subtitle)
+      phoneContainer.innerHTML = `
+        <div class="text-center">
+          <span class="inline-block text-[7px] text-stone-400 uppercase font-bold tracking-widest bg-stone-100 rounded-full px-2.5 py-0.5">
+            Today • Live Simulation
+          </span>
+        </div>
+      `;
+
+      let qData = PHONE_QUERIES[queryIdx];
+
+      // Typing simulation for user question
+      const userBubble = document.createElement('div');
+      userBubble.className = 'flex flex-col gap-1 items-end animate-fade-in';
+      userBubble.innerHTML = `
+        <div class="px-3 py-2 bg-[#006B44] text-white rounded-2xl rounded-tr-xs text-[9.5px] max-w-[85%] font-medium leading-relaxed shadow-sm">
+          <span id="phone-typed-question-span"></span><span class="inline-block w-1.5 h-3 bg-white ml-0.5 animate-pulse" id="cursor"></span>
+        </div>
+        <span class="text-[7px] text-stone-400 mr-1">Sent</span>
+      `;
+      phoneContainer.appendChild(userBubble);
+
+      let chIdx = 0;
+      const questionSpan = document.getElementById('phone-typed-question-span');
+      const cursor = document.getElementById('cursor');
+
+      const typingTimer = setInterval(() => {
+        if (chIdx < qData.question.length) {
+          questionSpan.textContent += qData.question[chIdx];
+          chIdx++;
+        } else {
+          clearInterval(typingTimer);
+          cursor.remove(); // remove typing cursor
+
+          // Prompt thinking/analyzing bubble state
+          setTimeout(() => {
+            const analyzingBubble = document.createElement('div');
+            analyzingBubble.className = 'flex gap-2 items-start animate-fade-in';
+            analyzingBubble.id = 'phone-analyzing-bubble';
+            analyzingBubble.innerHTML = `
+              <div class="w-6 h-6 rounded-full bg-emerald-800/10 flex items-center justify-center text-emerald-850 shrink-0">
+                <i data-lucide="scale" class="w-3 h-3 animate-pulse"></i>
+              </div>
+              <div class="px-2.5 py-1.5 bg-white border border-stone-200/50 rounded-2xl rounded-tl-xs shadow-xs">
+                <div class="flex gap-1 items-center py-1 px-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-700 animate-bounce" style="animation-delay: 0s"></span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-700 animate-bounce" style="animation-delay: 0.2s"></span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-700 animate-bounce" style="animation-delay: 0.4s"></span>
+                </div>
+              </div>
+            `;
+            phoneContainer.appendChild(analyzingBubble);
+            lucide.createIcons();
+
+            // Replace analyzing bubble with actual statutory citation responses
+            setTimeout(() => {
+              analyzingBubble.remove();
+
+              // Formatting raw bold strings to HTML
+              let cleanResponse = qData.answer;
+              // Simple replacement of **text** with <strong>text</strong>
+              cleanResponse = cleanResponse.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+              cleanResponse = cleanResponse.split('\n\n').map(ch => `<p>${ch}</p>`).join('');
+
+              const botResponseBubble = document.createElement('div');
+              botResponseBubble.className = 'flex flex-col gap-1.5 items-start animate-scale-in';
+              botResponseBubble.innerHTML = `
+                <div class="flex items-center gap-1.5">
+                  <div class="w-5 h-5 rounded-full bg-emerald-800 flex items-center justify-center text-white shrink-0">
+                    <i data-lucide="scale" class="w-2.5 h-2.5"></i>
+                  </div>
+                  <span class="text-[7px] font-extrabold uppercase text-[#C5A85A] tracking-wider">
+                    Verified AI Vakeel
+                  </span>
+                </div>
+                <div class="px-3 py-2.5 bg-white border border-stone-200/70 rounded-2xl rounded-tl-xs shadow-sm text-[8px] text-stone-605 leading-relaxed font-light space-y-1.5 w-full">
+                  <div class="whitespace-pre-line text-stone-700 space-y-1">${cleanResponse}</div>
+                  <div class="pt-2 border-t border-stone-100 flex justify-between items-center text-[7px] text-[#C5A85A] font-extrabold uppercase tracking-wide">
+                    <span class="flex items-center gap-1 bg-amber-50 px-1 py-0.5 rounded border border-amber-200/50">
+                      <i data-lucide="shield-check" class="w-2 h-2 text-amber-700"></i> Grounded Citation
+                    </span>
+                    <span>${qData.citation}</span>
+                  </div>
+                </div>
+              `;
+              phoneContainer.appendChild(botResponseBubble);
+              lucide.createIcons();
+
+              // Setup timeout to trigger next loop cycle
+              setTimeout(() => {
+                queryIdx = (queryIdx + 1) % PHONE_QUERIES.length;
+                executePhoneCycle();
+              }, 8000);
+
+            }, 1800);
+          }, 1000);
+        }
+      }, 55);
+    }
+
+    // Initialize phone cycle
+    executePhoneCycle();
+
+
+    // MacBook multiselector docs drafting engine simulator
+    const DESKTOP_TABS = [
+      {
+        title: "Pre-Arrest Bail Application",
+        badge: "CrPC Sec 498",
+        filename: "Bail_Application_498_CrPC.docx",
+        content: [
+          "IN THE COURT OF THE SESSIONS JUDGE, LAHORE",
+          "Criminal Miscellaneous No. 40821-B / 2026",
+          "",
+          "Mian Faisal, S/o Muhammad Sharif,",
+          "Resident of House 12-A, Gulberg III, Lahore, Pakistan. ... Petitioner",
+          "VERSUS",
+          "The State & Another ... Respondents",
+          "",
+          "APPLICATION UNDER SECTION 498 OF CODE OF CRIMINAL PROCEDURE 1898",
+          "FOR THE GRANT OF AD-INTERIM PRE-ARREST BAIL IN FIR NO. 452/2026",
+          "UNDER SECTION 379 PPC, POLICE STATION GULBERG, LAHORE.",
+          "",
+          "Respectfully Sheweth:",
+          "1. That the Petitioner has been falsely and maliciously implicated in the above-mentioned FIR",
+          "   at the behest of a local business rival with absolute mala-fide intentions.",
+          "2. That the Petitioner is a law-abiding respectable citizen, has no previous criminal record,",
+          "   and is ready and willing to join the investigation to establish absolute innocence.",
+          "3. That the custodial interrogation of the Petitioner is neither useful nor warranted under",
+          "   established Pakistani jurisprudence as no physical query remains pending.",
+          "4. That the Petitioner is willing to furnish reliable surety bonds for absolute satisfaction",
+          "   of this Honourable Court.",
+          "",
+          "PRAYER:",
+          "It is therefore most respectfully prayed that ad-interim pre-arrest bail may kindly be granted",
+          "to the Petitioner, and the police concerned be directed not to arrest him till decision.",
+          "",
+          "Petitioner | Through Counsel Advocate Supreme Court of Pakistan"
+        ]
+      },
+      {
+        title: "Commercial Lease Agreement",
+        badge: "Rent Acts 2009",
+        filename: "Commercial_Lease_Agreement.docx",
+        content: [
+          "COMMERCIAL LEASE DEED",
+          "This Commercial Lease Agreement is executed at Karachi on 30th May, 2026 by and between:",
+          "",
+          "Syed Ahmed Ali, CNIC: 42101-1234567-1, hereinafter referred to as LANDLORD.",
+          "AND",
+          "Vertex Tech Pvt Ltd, through CEO Muhammad Khan, CNIC: 35201-9876543-1, hereinafter referred to as TENANT.",
+          "",
+          "TERMS AND CONDITIONS:",
+          "1. PREMISES: The Landlord leases Office No. 402, 4th Floor, Clifton Centre, Clifton Road, Karachi.",
+          "2. DURATION: This lease is granted for a fixed term of 3 (three) years commencing 1st June, 2026.",
+          "3. RENT: The monthly rent is PKR 150,000/-, escalating at 10% annually end of each year.",
+          "4. SECURITY DEPOSIT: The Tenant paid security deposit: PKR 450,000/- (Refundable on lease term end).",
+          "5. DISPUTES: Governed by the Sindh Rented Premises Ordinance, 1979.",
+          "",
+          "In Witness Whereof, both parties have set hands and signatures on the date mentioned above.",
+          "",
+          "Landlord Representative _________ | Tenant Representative _________ | Witness 1 & 2"
+        ]
+      },
+      {
+        title: "Legal Recovery Notice",
+        badge: "Contract Act 1872",
+        filename: "Legal_Notice_Debt_Recovery.docx",
+        content: [
+          "LEGAL NOTICE FOR THE RECOVERY OF OUTSTANDING DEBT",
+          "To: Apex Logistics House, Plot 89-B, Sector I-9, Islamabad.",
+          "",
+          "Dear Sirs,",
+          "Under instructions on behalf of our client, Messrs Zenith Hardware Traders, Lahore,",
+          "we hereby serve you with this formal Legal Notice under Section 73 of the Contract Act, 1872:",
+          "",
+          "1. That our client supplied high-grade hardware fittings, total invoice PKR 2,800,000/-.",
+          "2. That despite written notices, you failed to clear the balance of PKR 1,200,000/-.",
+          "3. That withholding of payments constitutes a severe breach of contract of business rules.",
+          "",
+          "REQUIREMENT:",
+          "You are called to clear PKR 1,200,000/- along with legal fees of PKR 50,000/- inside 14 days,",
+          "failing which we hold instructions to initiate civil legal operations before high courts of law.",
+          "",
+          "Chaudhary & Partners, Advocates & Legal Consultants, Mall Road, Lahore."
+        ]
+      }
+    ];
+
+    let activeMacTab = 0;
+    let macTimer = null;
+
+    function renderMacTabs() {
+      const selectors = document.getElementById('mac-tab-selectors');
+      selectors.innerHTML = '';
+      DESKTOP_TABS.forEach((item, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `px-4 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all border shadow-sm flex items-center gap-2 cursor-pointer ${
+          activeMacTab === idx
+            ? 'bg-emerald-800 text-[#FAF9F5] border-emerald-700'
+            : 'bg-white text-stone-605 border-stone-200/80 hover:bg-[#FAF9F5]'
+        }`;
+        btn.innerHTML = `
+          <span class="w-1.5 h-1.5 rounded-full ${activeMacTab === idx ? 'bg-[#C5A85A] animate-pulse' : 'bg-stone-300'}"></span>
+          ${item.title}
+        `;
+        btn.onclick = () => {
+          activeMacTab = idx;
+          renderMacTabs();
+          triggerMacDrafting();
+        };
+        selectors.appendChild(btn);
+      });
+    }
+
+    function triggerMacDrafting() {
+      if (macTimer) clearInterval(macTimer);
+      const tabData = DESKTOP_TABS[activeMacTab];
+      
+      // Update header details
+      document.getElementById('mac-filename').textContent = tabData.filename;
+      document.getElementById('mac-statute-badge').textContent = tabData.badge;
+      const statusLbl = document.getElementById('mac-status');
+      statusLbl.textContent = 'Drafting...';
+
+      const terminal = document.getElementById('document-writer-pane');
+      terminal.innerHTML = '';
+
+      let lineIdx = 0;
+      let chIdx = 0;
+
+      // Start line-by-line printing
+      macTimer = setInterval(() => {
+        if (lineIdx < tabData.content.length) {
+          const text = tabData.content[lineIdx];
+          
+          if (text === '') {
+            terminal.innerHTML += '<br/>';
+            lineIdx++;
+            chIdx = 0;
+          } else {
+            // If starting a new line, add block div
+            let lineDiv = terminal.querySelector(`#line-${lineIdx}`);
+            if (!lineDiv) {
+              lineDiv = document.createElement('div');
+              lineDiv.id = `line-${lineIdx}`;
+              // Make courts or headers bold
+              if (text.startsWith("IN THE COURT") || text.includes("APPLICATION UNDER") || text.includes("COMMERCIAL LEASE") || text.includes("LEGAL NOTICE")) {
+                lineDiv.className = "font-bold text-stone-900";
+              }
+              terminal.appendChild(lineDiv);
+            }
+            lineDiv.textContent += text[chIdx];
+            chIdx++;
+
+            if (chIdx >= text.length) {
+              lineIdx++;
+              chIdx = 0;
+            }
+          }
+          terminal.scrollTop = terminal.scrollHeight; // auto-scroll down
+        } else {
+          clearInterval(macTimer);
+          statusLbl.textContent = 'Complete • Vetted Ready';
+        }
+      }, 10);
+    }
+
+    // Init MacBook tabs
+    renderMacTabs();
+    triggerMacDrafting();
+
+  </script>
+</body>
+</html>

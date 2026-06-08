@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "customCase": {
+      "title": "Custom Case Law Record",
+      "description": "A custom ingested case law record submitted via the sandbox.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "citation": { "type": "string" },
+        "year": { "type": "integer" },
+        "court": { "type": "string" },
+        "courtName": { "type": "string" },
+        "category": { "type": "string", "enum": ["Inheritance", "Family", "Criminal", "Civil", "Constitutional", "Taxation"] },
+        "date": { "type": "string" },
+        "subject": { "type": "string" },
+        "facts": { "type": "string" },
+        "issues": { "type": "array" },
+        "decision": { "type": "string" },
+        "urduDecision": { "type": "string" },
+        "ratioDecidendi": { "type": "string" },
+        "urduRatio": { "type": "string" },
+        "bench": { "type": "string" },
+        "advocates": { "type": "object" },
+        "fullText": { "type": "string" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "object" }
+      },
+      "required": ["id", "title", "citation", "category", "fullText"]
+    },
+    "feedback": {
+      "title": "User Review Feedback",
+      "description": "Reviews and feedback left by legal practitioners, students, or citizens.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "stars": { "type": "integer" },
+        "type": { "type": "string" },
+        "text": { "type": "string" },
+        "date": { "type": "string" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "object" }
+      },
+      "required": ["name", "stars", "type", "text", "date"]
+    }
+  },
+  "firestore": {
+    "customCases/{caseId}": {
+      "schema": "customCase",
+      "description": "User uploaded and embedded precedent documents."
+    },
+    "feedback/{feedbackId}": {
+      "schema": "feedback",
+      "description": "User feedback and reviews on the platform."
+    }
+  }
+}

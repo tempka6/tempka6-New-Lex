@@ -1,0 +1,10 @@
+{
+  "name": "Remix: LexPK",
+  "description": "AI-powered legal platform for Pakistan. Ask civil and criminal legal questions, generate draft petitions, look up limitation periods, and connect with verified legal advisors.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
